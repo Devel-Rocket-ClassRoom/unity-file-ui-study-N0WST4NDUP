@@ -70,7 +70,7 @@ public class Q1 : MonoBehaviour
             if (_selectedFileVisualizor == null) return;
 
             File.Delete(_selectedFileVisualizor.Path);
-            Destroy(_selectedFileVisualizor);
+            Destroy(_selectedFileVisualizor.gameObject);
         }
     }
 }
