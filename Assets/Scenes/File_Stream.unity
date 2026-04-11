@@ -394,6 +394,7 @@ GameObject:
   - component: {fileID: 557352116}
   - component: {fileID: 557352115}
   - component: {fileID: 557352117}
+  - component: {fileID: 557352118}
   m_Layer: 0
   m_Name: FileIOManager
   m_TagString: Untagged
@@ -435,11 +436,23 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 557352114}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c17f6ef4a3ba654ea755caee82914ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Q2
+--- !u!114 &557352118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557352114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 869e7a8100f90e645a4065eae256932a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Q3
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
