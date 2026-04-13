@@ -43,7 +43,6 @@ public class LocalizationText : MonoBehaviour
     {
 #if UNITY_EDITOR
         OnChangeLanguage(editorLang);
-        Debug.Log("에디터임");
 #endif
     }
 
@@ -57,6 +56,12 @@ public class LocalizationText : MonoBehaviour
     {
         var stringTable = DataTableManager.GetStringTable(lang);
         text.text = stringTable.Get(id);
+    }
+
+    [ContextMenu("ChangeAll")]
+    private void OnChangeLanguage()
+    {
+
     }
 #endif
 }
