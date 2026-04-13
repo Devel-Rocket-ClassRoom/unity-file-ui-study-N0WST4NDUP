@@ -4,10 +4,21 @@ using UnityEngine.UI;
 
 public class DataTableTest : MonoBehaviour
 {
-    // private StringTable _stringTable = new();
-
-    public void OnClickEvent()
+    private void Update()
     {
-        Debug.Log(DataTableManager.StringTable.Get("YOU DIE"));
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Variables.Language = Languages.Korean;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Variables.Language = Languages.English;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Variables.Language = Languages.Japanese;
+        }
     }
 }

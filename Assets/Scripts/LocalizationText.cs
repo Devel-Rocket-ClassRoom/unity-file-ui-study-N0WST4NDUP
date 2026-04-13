@@ -1,39 +1,62 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
+[ExecuteAlways]
 public class LocalizationText : MonoBehaviour
 {
-    private StringTableText[] texts;
+#if UNITY_EDITOR
+    public Languages editorLang;
+#endif
+    public string id;
+    public TextMeshProUGUI text;
 
     private void Start()
     {
-        texts = FindObjectsByType<StringTableText>(FindObjectsSortMode.None);
-        Localizing(Languages.Korean);
+        if (text == null) text = GetComponent<TextMeshProUGUI>();
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Application.isPlaying)
         {
-            Localizing(Languages.Korean);
+            OnChangedId();
+            Variables.OnLanguageChanged += OnChangedId;
         }
-
-        if (Input.GetKeyDown(KeyCode.W))
+#if UNITY_EDITOR
+        else
         {
-            Localizing(Languages.English);
+            OnChangeLanguage(editorLang);
         }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Localizing(Languages.Japanese);
-        }
+#endif
     }
 
-    private void Localizing(Languages lang)
+    private void OnDisable()
     {
-        foreach (var text in texts)
+        if (Application.isPlaying)
         {
-            text.ChangeLanguage(lang);
+            Variables.OnLanguageChanged -= OnChangedId;
         }
     }
+
+    private void OnValidate()
+    {
+#if UNITY_EDITOR
+        OnChangeLanguage(editorLang);
+        Debug.Log("에디터임");
+#endif
+    }
+
+    private void OnChangedId()
+    {
+        text.text = DataTableManager.StringTable.Get(id);
+    }
+
+#if UNITY_EDITOR
+    private void OnChangeLanguage(Languages lang)
+    {
+        var stringTable = DataTableManager.GetStringTable(lang);
+        text.text = stringTable.Get(id);
+    }
+#endif
 }
