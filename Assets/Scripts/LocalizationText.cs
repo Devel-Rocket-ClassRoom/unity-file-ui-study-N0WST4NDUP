@@ -59,9 +59,14 @@ public class LocalizationText : MonoBehaviour
     }
 
     [ContextMenu("ChangeAll")]
-    private void OnChangeLanguage()
+    private void ChangeAll()
     {
-
+        LocalizationText[] texts = FindObjectsByType<LocalizationText>(FindObjectsSortMode.None);
+        foreach (LocalizationText text in texts)
+        {
+            text.editorLang = editorLang;
+            text.OnChangedId();
+        }
     }
 #endif
 }
