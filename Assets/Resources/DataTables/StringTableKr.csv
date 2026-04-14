@@ -1,4 +1,23 @@
-Id,String
+﻿Id,String
 HELLO,안녕
 BYE,잘가
-YOU DIE,죽음
+YOU DIE,너 죽음
+CharacterStatusFormat,레벨:{0} 체력: {1}\n방어력: {2} 공격력: {3}
+Item1Name,검
+Item2Name,방패
+Item3Name,활 
+Item4Name,물약 
+Item1Desc,이것은 검이다.
+Item2Desc,이것은 방패다.
+Item3Desc,이것은 활이다.
+Item4Desc,이것은 물약이다.
+Character1Name,전사
+Character2Name,궁수
+Character3Name,마법사
+Character4Name,도적
+Character5Name,이름5
+CharacterDesc1,전사입니다.
+CharacterDesc2,궁수입니다.
+CharacterDesc3,마법사입니다.
+CharacterDesc4,도적입니다.
+CharacterDesc5,캐릭터설명5
