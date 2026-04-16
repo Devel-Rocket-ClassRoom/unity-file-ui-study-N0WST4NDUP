@@ -35,24 +35,25 @@ public static class SaveLoadManager
         TypeNameHandling = TypeNameHandling.All,
     };
 
-    public static bool Save(int slot = 0)
+    public static void Save(int slot = 0) => Save(slot, Mode);
+    public static bool Save(int slot = 0, SaveMode mode = SaveMode.Encrypted)
     {
         if (Data == null || slot < 0 || slot >= SaveFileNames.Length) return false;
 
         if (!Directory.Exists(SaveDirectory)) Directory.CreateDirectory(SaveDirectory);
+        var path = Path.Combine(SaveDirectory, SaveFileNames[slot] + SaveFileExtensions[(int)Mode]);
 
         try
         {
-            var path = Path.Combine(SaveDirectory, SaveFileNames[slot] + SaveFileExtensions[(int)Mode]);
             var json = JsonConvert.SerializeObject(Data, settings);
-            if (Mode == SaveMode.Encrypted)
+            switch (mode)
             {
-                var encrypted = CryptoUtil.Encrypt(json);
-                File.WriteAllBytes(path, encrypted);
-            }
-            else
-            {
-                File.WriteAllText(path, json);
+                case SaveMode.Text:
+                    File.WriteAllBytes(path, CryptoUtil.Encrypt(json));
+                    break;
+                case SaveMode.Encrypted:
+                    File.WriteAllText(path, json);
+                    break;
             }
         }
         catch
@@ -64,7 +65,8 @@ public static class SaveLoadManager
         return true;
     }
 
-    public static bool Load(int slot = 0)
+    public static void Load(int slot = 0) => Load(slot, Mode);
+    public static bool Load(int slot = 0, SaveMode mode = SaveMode.Encrypted)
     {
         if (slot < 0 || slot >= SaveFileNames.Length) return false;
 
@@ -76,17 +78,19 @@ public static class SaveLoadManager
         try
         {
             SaveData data;
-
-            if (Mode == SaveMode.Encrypted)
+            switch (mode)
             {
-                var bytes = File.ReadAllBytes(path);
-                var decrypted = CryptoUtil.Decrypt(bytes);
-                data = JsonConvert.DeserializeObject<SaveData>(decrypted, settings);
-            }
-            else
-            {
-                var json = File.ReadAllText(path);
-                data = JsonConvert.DeserializeObject<SaveData>(json, settings);
+                case SaveMode.Text:
+                    var decrypted = CryptoUtil.Decrypt(File.ReadAllBytes(path));
+                    data = JsonConvert.DeserializeObject<SaveData>(decrypted, settings);
+                    break;
+                case SaveMode.Encrypted:
+                    var json = File.ReadAllText(path);
+                    data = JsonConvert.DeserializeObject<SaveData>(json, settings);
+                    break;
+                default:
+                    Debug.Log("사용하지 않는 모드");
+                    return false;
             }
 
             while (data.Version < SaveDataVersion)
