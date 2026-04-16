@@ -54,4 +54,9 @@ public class SaveLoadTest1 : MonoBehaviour
         SaveLoadManager.Data.Inventory.Add(item.Id);
         Debug.Log($"아이템이 추가 되었습니다: {item}");
     }
+
+    public void ChangeMode()
+    {
+        SaveLoadManager.Mode = SaveLoadManager.Mode;
+    }
 }
