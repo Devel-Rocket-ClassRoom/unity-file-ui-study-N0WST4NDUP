@@ -35,7 +35,6 @@ public static class SaveLoadManager
         TypeNameHandling = TypeNameHandling.All,
     };
 
-    public static void Save(int slot = 0) => Save(slot, Mode);
     public static bool Save(int slot = 0, SaveMode mode = SaveMode.Encrypted)
     {
         if (Data == null || slot < 0 || slot >= SaveFileNames.Length) return false;
@@ -65,7 +64,6 @@ public static class SaveLoadManager
         return true;
     }
 
-    public static void Load(int slot = 0) => Load(slot, Mode);
     public static bool Load(int slot = 0, SaveMode mode = SaveMode.Encrypted)
     {
         if (slot < 0 || slot >= SaveFileNames.Length) return false;
