@@ -33,7 +33,7 @@ public class StartWindow : GenericWindow
 
     public void OnContinue()
     {
-        Debug.Log("OnContinue");
+        WindowManager.Open(1);
     }
 
     public void OnNewGame()
