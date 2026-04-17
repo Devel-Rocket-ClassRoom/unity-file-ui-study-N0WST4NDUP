@@ -2,24 +2,25 @@ using UnityEngine;
 
 public class SaveLoadTest1 : MonoBehaviour
 {
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            SaveLoadManager.Data.Name = "TEST1234";
-            SaveLoadManager.Data.Gold = 4321;
+            //SaveLoadManager.Data = new SaveDataV3();
+            //SaveLoadManager.Data.Name = "TEST1234";
+            //SaveLoadManager.Data.Gold = 4321;
             SaveLoadManager.Save();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            if (SaveLoadManager.Load())
+            if(SaveLoadManager.Load())
             {
                 Debug.Log(SaveLoadManager.Data.Name);
                 Debug.Log(SaveLoadManager.Data.Gold);
-                foreach (var itemId in SaveLoadManager.Data.Inventory)
+                foreach (var item in SaveLoadManager.Data.itemId)
                 {
-                    var item = DataTableManager.ItemTable.Get(itemId);
                     Debug.Log(item);
                 }
             }
@@ -27,36 +28,22 @@ public class SaveLoadTest1 : MonoBehaviour
             {
                 Debug.Log("세이브 파일 없음");
             }
+           
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            Debug.Log(SaveLoadManager.Data.Name);
-            Debug.Log(SaveLoadManager.Data.Gold);
-            foreach (var itemId in SaveLoadManager.Data.Inventory)
+            SaveLoadManager.Data.itemId.Add(DataTableManager.ItemTable.GetId()[Random.Range(0, DataTableManager.ItemTable.GetId().Count)]);
+            Debug.Log("아이템 랜덤 추가");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            foreach (var id in SaveLoadManager.Data.itemId)
             {
-                var item = DataTableManager.ItemTable.Get(itemId);
-                Debug.Log(item);
+                ItemData item = DataTableManager.ItemTable.Get(id);
+                Debug.Log($"타입: [{item.Type}] {item.StringName} : {item.StringDesc}");
             }
         }
-    }
-
-    public void OnClickAddItem()
-    {
-        var items = new string[]
-        {
-            "Item1",
-            "Item2",
-            "Item3",
-            "Item4",
-        };
-        var item = DataTableManager.ItemTable.Get(items[Random.Range(0, items.Length)]);
-        SaveLoadManager.Data.Inventory.Add(item.Id);
-        Debug.Log($"아이템이 추가 되었습니다: {item}");
-    }
-
-    public void ChangeMode()
-    {
-        SaveLoadManager.Mode = SaveLoadManager.Mode;
     }
 }

@@ -58,4 +58,14 @@ public class ItemTable : DataTable
         }
         return itemTable[id];
     }
+
+    public List<string> GetId()
+    {
+        List<string> keys = new List<string>();
+        foreach (var value in itemTable)
+        {
+            keys.Add(value.Key);
+        }
+        return keys;
+    }
 }

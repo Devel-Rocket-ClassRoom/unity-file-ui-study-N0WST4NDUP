@@ -527,7 +527,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD65C "
+  m_text: "\u5F13"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 861fce3f58b5ab04392b05f8d085500e, type: 2}
   m_sharedMaterial: {fileID: -1074175970071494774, guid: 861fce3f58b5ab04392b05f8d085500e, type: 2}
@@ -918,7 +918,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9712641508640742bf0774d1bf6e41d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocalizationText_Answer
-  editorLang: 0
+  editorLang: 1
   id: Warrior
   text: {fileID: 349727324}
 --- !u!114 &349727324
@@ -941,7 +941,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC804\uC0AC"
+  m_text: "\u305B\u3093\u3057"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 861fce3f58b5ab04392b05f8d085500e, type: 2}
   m_sharedMaterial: {fileID: -1074175970071494774, guid: 861fce3f58b5ab04392b05f8d085500e, type: 2}
@@ -1079,7 +1079,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uAC80"
+  m_text: "\u5263"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 861fce3f58b5ab04392b05f8d085500e, type: 2}
   m_sharedMaterial: {fileID: -1074175970071494774, guid: 861fce3f58b5ab04392b05f8d085500e, type: 2}
@@ -1473,7 +1473,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uD0F1\uCEE4"
+  m_text: "\u30BF\u30F3\u30AB\u30FC"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 861fce3f58b5ab04392b05f8d085500e, type: 2}
   m_sharedMaterial: {fileID: -1074175970071494774, guid: 861fce3f58b5ab04392b05f8d085500e, type: 2}
@@ -2900,7 +2900,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uBC29\uD328"
+  m_text: "\u76FE"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 861fce3f58b5ab04392b05f8d085500e, type: 2}
   m_sharedMaterial: {fileID: -1074175970071494774, guid: 861fce3f58b5ab04392b05f8d085500e, type: 2}
@@ -5454,7 +5454,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB3C4\uC801"
+  m_text: "\u3068\u3046\u305E\u304F"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 861fce3f58b5ab04392b05f8d085500e, type: 2}
   m_sharedMaterial: {fileID: -1074175970071494774, guid: 861fce3f58b5ab04392b05f8d085500e, type: 2}

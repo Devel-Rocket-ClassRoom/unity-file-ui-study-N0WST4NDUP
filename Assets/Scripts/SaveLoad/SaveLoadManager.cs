@@ -1,111 +1,135 @@
-using System.IO;
-using Newtonsoft.Json;
 using UnityEngine;
-
 using SaveDataVC = SaveDataV3;
+using Newtonsoft.Json;
+using System.IO;
 
 public static class SaveLoadManager
 {
     public enum SaveMode
     {
-        Text = 0,       // JSON 텍스트 (.json)
-        Encrypted = 1,  // AES 암호화 (.dat)
+        Text,       // (.json)
+        Encrypted   // (.dat)
     }
 
-    public static SaveMode Mode { get; set; } = SaveMode.Encrypted;
+    public static SaveMode Mode { get; set; } = SaveMode.Text;
 
     public static int SaveDataVersion { get; } = 3;
-    public static SaveDataVC Data { get; set; } = new();
-
     private static readonly string SaveDirectory = $"{Application.persistentDataPath}/Save";
-    private static readonly string[] SaveFileNames = {
+    private static readonly string[] SaveFileNames =
+    {
         "SaveAuto",
         "Save1",
         "Save2",
         "Save3"
     };
-    private static readonly string[] SaveFileExtensions = {
-        ".json",
-        ".dat"
-    };
+    public static SaveDataVC Data { get; set; } = new SaveDataVC();
 
-    private static JsonSerializerSettings settings = new()
+    private static string GetSavefilePath(int slot)
+    {
+        return GetSavefilePath(slot, Mode);
+    }
+
+    private static string GetSavefilePath(int slot, SaveMode mode)
+    {
+        var ext = Mode == SaveMode.Text ? ".json" : ".dat";
+        return Path.Combine(SaveDirectory, $"{SaveFileNames[slot]}{ext}");
+    }
+
+    private static JsonSerializerSettings settings = new JsonSerializerSettings()
     {
         Formatting = Formatting.Indented,
-        TypeNameHandling = TypeNameHandling.All,
+        TypeNameHandling = TypeNameHandling.All,    // 추상 클래스의 실제 객체에 맞게 직렬화/역질렬화 하기 위함
     };
 
-    public static bool Save(int slot = 0, SaveMode mode = SaveMode.Encrypted)
+    public static bool Save(int slot = 0)
     {
-        if (Data == null || slot < 0 || slot >= SaveFileNames.Length) return false;
+        return Save(slot, Mode);
+    }
 
-        if (!Directory.Exists(SaveDirectory)) Directory.CreateDirectory(SaveDirectory);
-        var path = Path.Combine(SaveDirectory, SaveFileNames[slot] + SaveFileExtensions[(int)Mode]);
+    public static bool Load(int slot = 0)
+    {
+        return Load(slot, Mode);
+    }
+
+    public static bool Save(int slot, SaveMode mode)
+    {
+        if (Data == null || slot < 0 || slot >= SaveFileNames.Length)
+        {
+            return false;
+        }
 
         try
         {
+            if (!Directory.Exists(SaveDirectory))
+            {
+                Directory.CreateDirectory(SaveDirectory);
+            }
+
             var json = JsonConvert.SerializeObject(Data, settings);
-            switch (mode)
+            string path = GetSavefilePath(slot, mode);
+
+            switch (Mode)
             {
                 case SaveMode.Text:
-                    File.WriteAllBytes(path, CryptoUtil.Encrypt(json));
-                    break;
-                case SaveMode.Encrypted:
                     File.WriteAllText(path, json);
                     break;
+                case SaveMode.Encrypted:
+                    File.WriteAllBytes(path, CryptoUtil.Encrypt(json));
+                    break;
             }
+            
+            return true;
         }
-        catch
+        catch (System.Exception)
         {
             Debug.LogError("Save 예외");
             return false;
         }
-
-        return true;
     }
 
-    public static bool Load(int slot = 0, SaveMode mode = SaveMode.Encrypted)
+    public static bool Load(int slot, SaveMode mode)
     {
-        if (slot < 0 || slot >= SaveFileNames.Length) return false;
+        if (slot < 0 || slot >= SaveFileNames.Length)
+        {
+            return false;
+        }
 
-        if (!Directory.Exists(SaveDirectory)) Directory.CreateDirectory(SaveDirectory);
+        string path = GetSavefilePath(slot, mode);
 
-        var path = Path.Combine(SaveDirectory, SaveFileNames[slot] + SaveFileExtensions[(int)Mode]);
-        if (!File.Exists(path)) return false;
+        if (!File.Exists(path))
+        {
+            Debug.LogError("파일 없음");
+            return false;
+        }
 
         try
         {
-            SaveData data;
-            switch (mode)
+            string json = string.Empty;
+            switch (Mode)
             {
                 case SaveMode.Text:
-                    var decrypted = CryptoUtil.Decrypt(File.ReadAllBytes(path));
-                    data = JsonConvert.DeserializeObject<SaveData>(decrypted, settings);
+                    json = File.ReadAllText(path);
                     break;
                 case SaveMode.Encrypted:
-                    var json = File.ReadAllText(path);
-                    data = JsonConvert.DeserializeObject<SaveData>(json, settings);
+                    json = CryptoUtil.Decrypt(File.ReadAllBytes(path));
                     break;
-                default:
-                    Debug.Log("사용하지 않는 모드");
-                    return false;
             }
+            var saveData = JsonConvert.DeserializeObject<SaveData>(json, settings);
 
-            while (data.Version < SaveDataVersion)
+
+            while (saveData.Version < SaveDataVersion)
             {
-                Debug.Log($"이전 버전: {data.Version}");
-                data = data.VersionUp();
-                Debug.Log($"현재 버전: {data.Version}");
-                Debug.Log("------------------------------");
+                Debug.Log(saveData.Version);
+                saveData = saveData.VersionUp();
+                Debug.Log(saveData.Version);
             }
-            Data = data as SaveDataVC;
+            Data = saveData as SaveDataVC;
+            return true;
         }
         catch
         {
             Debug.LogError("Load 예외");
             return false;
         }
-
-        return true;
     }
 }

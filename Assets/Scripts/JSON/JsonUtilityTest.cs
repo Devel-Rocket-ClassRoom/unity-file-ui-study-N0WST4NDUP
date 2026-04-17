@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -7,45 +8,46 @@ public class PlayerInfo
     public int lives;
     public float health;
     public Vector3 position;
-    // public Dictionary<string, int> scores = new()
-    // {
-    //     {"stage1", 100},
-    //     {"stage2", 200},
-    //     {"stage3", 300}
-    // };
+
+    // JsonUtility는 Dictionary 지원 안함
+    public Dictionary<string, int> scores = new Dictionary<string, int>
+    {
+        { "stage1", 100 },
+        { "stage2", 200 },
+    };
 }
 
 public class JsonUtilityTest : MonoBehaviour
 {
     private void Update()
     {
+        // Save
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            // Save
-            PlayerInfo playerInfo = new()
+            PlayerInfo obj = new PlayerInfo
             {
                 playerName = "ABC",
                 lives = 10,
                 health = 10.999f,
-                position = new(1f, 2f, 3f)
+                position = new Vector3(1f, 2f, 3f)
             };
 
-            string dirPath = Path.Combine(
+            string pathFolder = Path.Combine(
                 Application.persistentDataPath,
                 "JsonTest"
-            );
+                );
 
-            if (!Directory.Exists(dirPath))
+            if (!Directory.Exists(pathFolder))
             {
-                Directory.CreateDirectory(dirPath);
+                Directory.CreateDirectory(pathFolder);
             }
 
             string path = Path.Combine(
-                dirPath,
+                pathFolder,
                 "player.json"
-            );
+                );
 
-            string json = JsonUtility.ToJson(playerInfo, prettyPrint: true);
+            string json = JsonUtility.ToJson(obj, prettyPrint: true);
             File.WriteAllText(path, json);
 
             Debug.Log(path);
@@ -54,29 +56,23 @@ public class JsonUtilityTest : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            // Load
-            string dirPath = Path.Combine(
+            string pathFolder = Path.Combine(
                 Application.persistentDataPath,
                 "JsonTest"
-            );
-
-            if (!Directory.Exists(dirPath)) return;
+                );
 
             string path = Path.Combine(
-                dirPath,
+                pathFolder,
                 "player.json"
-            );
+                );
 
             string json = File.ReadAllText(path);
-            // var playerInfo = JsonUtility.FromJson<PlayerInfo>(json);
-            PlayerInfo playerInfo = new();
-            JsonUtility.FromJsonOverwrite(json, playerInfo);
+            //PlayerInfo obj = JsonUtility.FromJson<PlayerInfo>(json);  //// 개체를 직접 생성하는 메서드
+            PlayerInfo obj = new PlayerInfo();
+            JsonUtility.FromJsonOverwrite(json, obj);                   // 개체를 덮어쓰는 메서드
 
-            Debug.Log(playerInfo.playerName);
-            Debug.Log(playerInfo.lives);
-            Debug.Log(playerInfo.health);
-            Debug.Log(playerInfo.position);
+            Debug.Log(json);
+            Debug.Log($"{obj.playerName} / {obj.lives} / {obj.health} / {obj.position}");
         }
-
     }
 }
