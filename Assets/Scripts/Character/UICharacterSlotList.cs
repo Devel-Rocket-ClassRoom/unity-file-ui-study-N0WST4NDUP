@@ -83,6 +83,7 @@ public class UICharacterSlotList : MonoBehaviour
 
     public UnityEvent onUpdateSlots;
     public UnityEvent<SaveCharacterData> onSelectSlot;
+    public UnityEvent<SaveItemData> UnEquipAction;
 
     private void OnSelectSlot(SaveCharacterData saveItemData)
     {
@@ -94,47 +95,25 @@ public class UICharacterSlotList : MonoBehaviour
         onSelectSlot.AddListener(OnSelectSlot);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            for (int i = 0; i < 10; i++)
-            {
-                AddRandomItem();
-            }
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-
-        }
-    }
-
-    public void SetSaveItemDataList(List<SaveCharacterData> source)
+    public void SetSaveCharacterDataList(List<SaveCharacterData> source)
     {
         saveCharacterDataList = source.ToList();
         UpdateSlots();
     }
 
-    public List<SaveCharacterData> GetSaveItemDataList()
+    public List<SaveCharacterData> GetSaveCharacterDataList()
     {
         return saveCharacterDataList;
     }
 
     private void UpdateSlots()
     {
-        // 아이템 데이터들을 필터링 및 정렬 
         var list = saveCharacterDataList.Where(filterings[(int)filtering]).ToList();
         list.Sort(comparisons[(int)sorting]);
 
         if (uiSlotList.Count < list.Count)
         {
-            // 아이템 데이터들보다 현재 생성된 프리팹이 적으면 생성
             for (int i = uiSlotList.Count; i < list.Count; i++)
             {
                 var newSlot = Instantiate(prefab, scrollRect.content);
@@ -152,7 +131,6 @@ public class UICharacterSlotList : MonoBehaviour
             }
         }
 
-        // 현재 uiSlot들을 보여질 만큼만 갱신
         for (int i = 0; i < uiSlotList.Count; i++)
         {
             if (i < list.Count)
@@ -171,14 +149,14 @@ public class UICharacterSlotList : MonoBehaviour
         onUpdateSlots?.Invoke();
     }
 
-    public void AddRandomItem()
+    public void AddRandomCharacter()
     {
         saveCharacterDataList.Add(SaveCharacterData.GetRandomCharacter());
 
         UpdateSlots();
     }
 
-    public void RemoveItem()
+    public void RemoveCharacter()
     {
         if (selectedSlotIndex == -1)
         {
@@ -187,5 +165,19 @@ public class UICharacterSlotList : MonoBehaviour
 
         saveCharacterDataList.Remove(uiSlotList[selectedSlotIndex].SaveCharacterData);
         UpdateSlots();
+    }
+
+    public void EquipItem(SaveItemData saveItemData)
+    {
+        if (selectedSlotIndex == -1)
+        {
+            return;
+        }
+
+        var prevItem = uiSlotList[selectedSlotIndex].SaveCharacterData.EquipItem(saveItemData);
+        if (prevItem != null)
+        {
+            UnEquipAction?.Invoke(prevItem);
+        }
     }
 }

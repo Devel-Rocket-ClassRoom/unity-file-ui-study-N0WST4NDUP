@@ -49,3 +49,5 @@ AttackAscending,공격력 (오름차순)
 AttackDescending,공격력 (내림차순)
 DefenceAscending,방어력 (오름차순)
 DefenceDescending,방어력 (내림차순)
+CREATECHARACTER,새 캐릭터 획득
+DELETECHARACTER,선택 캐릭터 제거

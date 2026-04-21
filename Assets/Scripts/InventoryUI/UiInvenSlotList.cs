@@ -89,6 +89,7 @@ public class UiInvenSlotList : MonoBehaviour
 
     public UnityEvent onUpdateSlots;
     public UnityEvent<SaveItemData> onSelectSlot;
+    public UnityEvent<SaveItemData> OnEquipItem;
 
     private void OnSelectSlot(SaveItemData saveItemData)
     {
@@ -163,6 +164,13 @@ public class UiInvenSlotList : MonoBehaviour
         UpdateSlots();
     }
 
+    public void AddItem(SaveItemData saveItemData)
+    {
+        saveItemDataList.Add(saveItemData);
+
+        UpdateSlots();
+    }
+
     public void RemoveItem()
     {
         if (selectedSlotIndex == -1)
@@ -172,5 +180,15 @@ public class UiInvenSlotList : MonoBehaviour
 
         saveItemDataList.Remove(uiSlotList[selectedSlotIndex].SaveItemData);
         UpdateSlots();
+    }
+
+    public void EquipItem()
+    {
+        if (selectedSlotIndex == -1)
+        {
+            return;
+        }
+
+        OnEquipItem?.Invoke(uiSlotList[selectedSlotIndex].SaveItemData);
     }
 }

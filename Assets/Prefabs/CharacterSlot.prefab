@@ -210,6 +210,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UICharacterSlot
   slotIndex: -1
-  imageIcon: {fileID: 4262840461813732333}
-  textName: {fileID: 0}
+  imageIcon: {fileID: 6666310535160420556}
   button: {fileID: 4251908337923691955}

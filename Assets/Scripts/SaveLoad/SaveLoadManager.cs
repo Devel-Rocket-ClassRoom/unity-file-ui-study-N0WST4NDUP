@@ -1,5 +1,5 @@
 using UnityEngine;
-using SaveDataVC = SaveDataV5;
+using SaveDataVC = SaveDataV6;
 using Newtonsoft.Json;
 using System.IO;
 
@@ -13,7 +13,7 @@ public static class SaveLoadManager
 
     public static SaveMode Mode { get; set; } = SaveMode.Text;
 
-    public static int SaveDataVersion { get; } = 5;
+    public static int SaveDataVersion { get; } = 6;
     private static readonly string SaveDirectory = $"{Application.persistentDataPath}/Save";
     private static readonly string[] SaveFileNames =
     {
@@ -28,7 +28,7 @@ public static class SaveLoadManager
     {
         if (!Load())
         {
-            Debug.Log("생성자 로드 실패");
+            Debug.Log("세이브 로드 실패");
         }
     }
 

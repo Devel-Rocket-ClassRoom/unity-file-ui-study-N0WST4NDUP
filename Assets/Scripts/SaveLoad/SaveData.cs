@@ -1,5 +1,13 @@
 using System.Collections.Generic;
 
+public struct Options
+{
+    public UICharacterSlotList.SortingOptions CharacterSortingOptions;
+    public UICharacterSlotList.FilteringOptions CharacterFilteringOptions;
+    public UiInvenSlotList.SortingOptions InventorySortingOptions;
+    public UiInvenSlotList.FilteringOptions InventoryFilteringOptions;
+}
+
 [System.Serializable]
 public abstract class SaveData
 {
@@ -122,6 +130,31 @@ public class SaveDataV5 : SaveDataV4
     public SaveDataV5()
     {
         Version = 5;
+    }
+
+    public override SaveData VersionUp()
+    {
+        var options = new Options();
+        options.InventorySortingOptions = sortIndex;
+        options.InventoryFilteringOptions = filterIndex;
+        return new SaveDataV6()
+        {
+            Name = Name,
+            Gold = Gold,
+            ItemList = ItemList,
+            Options = options
+        };
+    }
+}
+
+[System.Serializable]
+public class SaveDataV6 : SaveDataV4
+{
+    public List<SaveCharacterData> CharacterList = new();
+    public Options Options;
+    public SaveDataV6()
+    {
+        Version = 6;
     }
 
     public override SaveData VersionUp()

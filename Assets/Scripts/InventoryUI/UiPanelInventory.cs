@@ -37,10 +37,12 @@ public class UiPanelInventory : MonoBehaviour
 
     private void OnEnable()
     {
-        //UpdateLanguage();
-        filtering.value = (int)SaveLoadManager.Data.filterIndex;
-        sorting.value = (int)SaveLoadManager.Data.sortIndex;
-        OnLoad();
+        OnFetch();
+    }
+
+    private void OnDisable()
+    {
+        OnSnapshot();
     }
 
     //private void OnDisable()
@@ -48,23 +50,16 @@ public class UiPanelInventory : MonoBehaviour
     //    Variables.OnLanguageChanged -= UpdateLanguage;
     //}
 
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Alpha1))
-    //    {
-    //        Variables.Language = Languages.Korean;
-    //    }
-
-    //    if (Input.GetKeyDown(KeyCode.Alpha2))
-    //    {
-    //        Variables.Language = Languages.English;
-    //    }
-
-    //    if (Input.GetKeyDown(KeyCode.Alpha3))
-    //    {
-    //        Variables.Language = Languages.Japanese;
-    //    }
-    //}
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                uiInvenSlotList.AddRandomItem();
+            }
+        }
+    }
 
     public void OnChangeSorting(int index)
     {
@@ -76,20 +71,17 @@ public class UiPanelInventory : MonoBehaviour
         uiInvenSlotList.Filtering = (UiInvenSlotList.FilteringOptions)index;
     }
 
-    public void OnSave()
+    public void OnSnapshot()
     {
         SaveLoadManager.Data.ItemList = uiInvenSlotList.GetSaveItemDataList();
-        SaveLoadManager.Data.filterIndex = (UiInvenSlotList.FilteringOptions)filtering.value;
-        SaveLoadManager.Data.sortIndex = (UiInvenSlotList.SortingOptions)sorting.value;
-        SaveLoadManager.Save();
+        SaveLoadManager.Data.Options.InventoryFilteringOptions = (UiInvenSlotList.FilteringOptions)filtering.value;
+        SaveLoadManager.Data.Options.InventorySortingOptions = (UiInvenSlotList.SortingOptions)sorting.value;
     }
 
-    public void OnLoad()
+    public void OnFetch()
     {
-        SaveLoadManager.Load();
-
-        //OnChangeFiltering(filtering.value);
-        //OnChangeSorting(sorting.value);
+        filtering.value = (int)SaveLoadManager.Data.Options.InventoryFilteringOptions;
+        sorting.value = (int)SaveLoadManager.Data.Options.InventorySortingOptions;
         uiInvenSlotList.SetSaveItemDataList(SaveLoadManager.Data.ItemList);
     }
 

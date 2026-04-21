@@ -50,3 +50,5 @@ AttackAscending,Attack (Ascending)
 AttackDescending,Attack (Descending)
 DefenceAscending,Defence (Ascending)
 DefenceDescending,Defence (Descending)
+CREATECHARACTER,Create Character
+DELETECHARACTER,Delete Character

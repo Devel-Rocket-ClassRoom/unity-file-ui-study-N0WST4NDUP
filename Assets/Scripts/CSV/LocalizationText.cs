@@ -17,10 +17,12 @@ public class LocalizationText : MonoBehaviour
         {
             Localizing(Languages.Korean);
         }
+
         if (Input.GetKeyDown(KeyCode.Keypad2))
         {
             Localizing(Languages.English);
         }
+
         if (Input.GetKeyDown(KeyCode.Keypad3))
         {
             Localizing(Languages.Japanese);
