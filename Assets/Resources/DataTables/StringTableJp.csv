@@ -11,6 +11,14 @@ Item1Desc,これは剣だ。
 Item2Desc,これは盾だ。
 Item3Desc,これは弓だ。
 Item4Desc,これはポーションだ。
+Warrior,せんし
+Thief,とうぞく
+Tanker,タンカー
+WarriorDesc,せんしです
+ThiefDesc,とうぞくです
+TankerDesc,タンカーです
+Attack,こうげき
+Deffense,ぼうえい
 NAME,名前
 DESC,説明
 TYPE,タイプ
@@ -18,13 +26,27 @@ VALUE,値
 COST,コスト
 WEAPON,武器
 EQUIP,装備
-CONSUMABLE,消費品
-NONE,なし
-CREATEDAT,作成日
-ASCENDING,昇順
-DESCENDING,降順
-SAVE,保存
-LOAD,読み込み
-ADDITEM,アイテム追加
-REMOVEITEM,アイテム削除
-NONCONSUMABLE,非消費品
+CONSUMABLE,消耗品
+SAVE,ちょぞう
+LOAD,呼び出し
+ADDITEM,ついかする
+REMOVEITEM," さくじょ"
+CreationTimeAscending,日付 (昇順)
+CreationTimeDescending,日付 (降順)
+NameAscending,名前 (昇順)
+NameDescending,名前 (降順)
+CostAscending,コスト (昇順)
+CostDescending,コスト (降順)
+ValueAscending,値 (昇順)
+ValueDescending,値 (降順)
+None,なし
+Weapon,武器
+Equip,装備
+Consumable,消耗品
+NonConsumable,非消耗品
+EQUIPT,装着
+UNEQUIPT,解除
+AttackAscending,攻撃力 (昇順)
+AttackDescending,攻撃力 (降順)
+DefenceAscending,防御力 (昇順)
+DefenceDescending,防御力 (降順)
