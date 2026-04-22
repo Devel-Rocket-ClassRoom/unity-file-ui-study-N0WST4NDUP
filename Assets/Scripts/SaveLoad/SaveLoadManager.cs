@@ -126,9 +126,7 @@ public static class SaveLoadManager
 
             while (saveData.Version < SaveDataVersion)
             {
-                Debug.Log(saveData.Version);
                 saveData = saveData.VersionUp();
-                Debug.Log(saveData.Version);
             }
             Data = saveData as SaveDataVC;
             return true;

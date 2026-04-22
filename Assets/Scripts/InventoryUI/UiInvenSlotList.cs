@@ -190,5 +190,6 @@ public class UiInvenSlotList : MonoBehaviour
         }
 
         OnEquipItem?.Invoke(uiSlotList[selectedSlotIndex].SaveItemData);
+        RemoveItem();
     }
 }
