@@ -93,7 +93,7 @@ public class UiInvenSlotList : MonoBehaviour
 
     private void OnSelectSlot(SaveItemData saveItemData)
     {
-        Debug.Log(saveItemData);
+        // Debug.Log(saveItemData);
     }
 
     private void Start()
@@ -114,6 +114,7 @@ public class UiInvenSlotList : MonoBehaviour
 
     private void UpdateSlots()
     {
+        Debug.Log($"[{GetType().Name}] Called UpdateSlots");
         // 아이템 데이터들을 필터링 및 정렬 
         var list = saveItemDataList.Where(filterings[(int)filtering]).ToList();
         list.Sort(comparisons[(int)sorting]);
@@ -166,6 +167,7 @@ public class UiInvenSlotList : MonoBehaviour
 
     public void AddItem(SaveItemData saveItemData)
     {
+        Debug.Log($"[{GetType().Name}] Called AddItem");
         saveItemDataList.Add(saveItemData);
 
         UpdateSlots();
@@ -173,6 +175,7 @@ public class UiInvenSlotList : MonoBehaviour
 
     public void RemoveItem()
     {
+        Debug.Log($"[{GetType().Name}] Called RemoveItem");
         if (selectedSlotIndex == -1)
         {
             return;
@@ -184,12 +187,15 @@ public class UiInvenSlotList : MonoBehaviour
 
     public void EquipItem()
     {
+        Debug.Log($"[{GetType().Name}] Called EquipItem");
         if (selectedSlotIndex == -1)
         {
             return;
         }
 
-        OnEquipItem?.Invoke(uiSlotList[selectedSlotIndex].SaveItemData);
-        RemoveItem();
+        var saveItemData = uiSlotList[selectedSlotIndex].SaveItemData;
+        saveItemDataList.Remove(saveItemData);
+        OnEquipItem?.Invoke(saveItemData);
+        UpdateSlots();
     }
 }

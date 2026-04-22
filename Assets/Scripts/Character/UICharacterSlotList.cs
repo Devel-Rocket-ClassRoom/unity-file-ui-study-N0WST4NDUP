@@ -83,7 +83,7 @@ public class UICharacterSlotList : MonoBehaviour
 
     public UnityEvent onUpdateSlots;
     public UnityEvent<SaveCharacterData> onSelectSlot;
-    public UnityEvent<SaveItemData> UnEquipAction;
+    public UnityEvent<SaveItemData> UnequipAction;
 
     private void OnSelectSlot(SaveCharacterData saveItemData)
     {
@@ -169,6 +169,7 @@ public class UICharacterSlotList : MonoBehaviour
 
     public void EquipItem(SaveItemData saveItemData)
     {
+        Debug.Log($"[{GetType().Name}] Called EquipItem");
         if (selectedSlotIndex == -1)
         {
             return;
@@ -177,7 +178,7 @@ public class UICharacterSlotList : MonoBehaviour
         var prevItem = uiSlotList[selectedSlotIndex].SaveCharacterData.EquipItem(saveItemData);
         if (prevItem != null)
         {
-            UnEquipAction?.Invoke(prevItem);
+            UnequipAction?.Invoke(prevItem);
         }
     }
 }
